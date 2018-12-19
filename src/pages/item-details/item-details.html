@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle *ngIf="!selectedItem">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title right>{{selectedItem.title}} ({{selectedItem.from}} {{selectedItem.ts | date:'dd/MM/yyyy'}})</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h4 text-center *ngIf="selectedItem">
+    <b>{{selectedItem.title}}</b>
+  </h4>
+  <p>
+    {{selectedItem.text}}
+  </p>
+</ion-content>
