@@ -14,8 +14,6 @@ import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-details/item-new';
 import { Items } from './providers/firebase.qa.provider';
 
- 
-
 @NgModule({
   declarations: [
     MyApp,

@@ -29,7 +29,7 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'MailList', component: ListPage }
+      { title: 'Messages', component: ListPage }
     ];
   }
 
