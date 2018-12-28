@@ -4,6 +4,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title right>{{selectedItem.title}} ({{selectedItem.from}} {{selectedItem.ts | date:'dd/MM/yyyy'}})</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

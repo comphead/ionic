@@ -5,11 +5,12 @@
     </button>
     <ion-title>MailList</ion-title>
   </ion-navbar>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+    <button ion-item *ngFor="let item of filteredItems" (click)="itemTapped($event, item)">
  <!--     <ion-icon name="{{item.icon}}" item-left></ion-icon> -->
       {{item.title}}
       <div class="item-from" item-right>
@@ -17,4 +18,7 @@
       </div>
     </button>
   </ion-list>
+  <ion-fab bottom right>
+    <button ion-fab mini (click)="add()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>
