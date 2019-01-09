@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController } from 'ionic-angular';
-import { MailItem } from '../../models/qa.model';
+import { Message } from '../../models/qa.model';
 import { Items } from '../../app/providers/firebase.qa.provider';
 
 @Component({
@@ -41,7 +41,7 @@ export class NewItemPage {
             qid: key, text: "Question" + key
         }));
         
-        var i = new MailItem({
+        var i = new Message({
             "text": this.item.value.text,
             "title": this.item.value.title,
             "timestamp": new Date().getTime(),

@@ -5,7 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ItemDetailsPage } from '../item-details/item-details';
 //import { Items } from '../../mocks/providers/MailProvider'
 import { Items } from '../../app/providers/firebase.qa.provider'
-import { MailItem } from '../../models/qa.model';
+import { Message } from '../../models/qa.model';
 import { NewItemPage } from '../item-details/item-new'
 
 
@@ -15,8 +15,9 @@ import { NewItemPage } from '../item-details/item-new'
 })
 export class ListPage {
   icons: string[];
-  items: MailItem[];
-  filteredItems: MailItem[];
+  items: Message[];
+  filteredItems: Message[];
+  searching = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private _items: Items) {
     this.initializeItems();
@@ -39,8 +40,16 @@ export class ListPage {
     this.navCtrl.push(NewItemPage);
   }
 
+  remove(item) {
+    this._items.delete(item);  
+  }
+
+  switchActive(item) {
+    this._items.switchActive(item);
+  }
+
   //rewrite to pipe
-  getItems(ev) {
+  onSearch(ev) {
     
     // set val to the value of the ev target
     var val = ev.target.value;

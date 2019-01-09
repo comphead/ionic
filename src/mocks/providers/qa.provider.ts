@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { MailItem } from '../../models/qa.model';
+import { Message } from '../../models/qa.model';
 
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class Items {
-    items: MailItem[] = [...Array(7)]
-    .map((_,i) => new MailItem({
+    items: Message[] = [...Array(7)]
+    .map((_,i) => new Message({
         "text": 'Mail Text'+i,
         "title": 'Mail Title'+i,
         "timestamp": new Date().getTime(),
@@ -20,7 +20,7 @@ export class Items {
     constructor() {
     }
 
-    query(params?: any): Observable<MailItem[]> {
+    query(params?: any): Observable<Message[]> {
         if (!params) {
             return of(this.items);
         }
@@ -38,19 +38,19 @@ export class Items {
         }));
     }
 
-    add(item: MailItem) {
+    add(item: Message) {
         this.items.push(item);
     }
 
-    delete(item: MailItem) {
+    delete(item: Message) {
         this.items.splice(this.items.indexOf(item), 1);
     }
 
-    encrypt(item: MailItem) {
+    encrypt(item: Message) {
         
     }
 
-    decrypt(item: MailItem) {
+    decrypt(item: Message) {
         
     }
 } 

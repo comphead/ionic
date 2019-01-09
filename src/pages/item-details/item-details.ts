@@ -20,4 +20,8 @@ export class ItemDetailsPage {
     this._items.delete(this.selectedItem);
     this.navCtrl.pop();
   }
+
+  switchActive(item) {
+    this._items.switchActive(item);
+  }
 }

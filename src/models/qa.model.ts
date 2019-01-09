@@ -1,4 +1,4 @@
-export class MailItem {
+export class Message {
 
     constructor(fields: any) {
       // Quick and dirty extend/assign fields to this model
@@ -10,6 +10,6 @@ export class MailItem {
   
   }
   
-  export interface MailItem {
+  export interface Message {
     [prop: string]: any;
   } 

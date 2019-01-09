@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import { MailItem } from '../../models/qa.model';
+import { Message } from '../../models/qa.model';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { AngularFireDatabase } from 'angularfire2/database';
 
-
 @Injectable()
 export class Items {
     private dbName: string = 'qaMsg';
-    private listRef = this.db.list<MailItem>(this.dbName);
+    private listRef = this.db.list<Message>(this.dbName);
 
     constructor(private db: AngularFireDatabase) { }
 
-    query(params?: any): Observable<MailItem[]> {
+    query(params?: any): Observable<Message[]> {
         return this.listRef
             .snapshotChanges().pipe(
                 map(
@@ -26,19 +25,28 @@ export class Items {
             );
     }
 
-    add(item: MailItem) {
+    add(item: Message) {
         this.listRef.push(item);
     }
 
-    delete(item: MailItem) {
+    delete(item: Message) {
         this.listRef.remove(item.key);
     }
 
-    encrypt(item: MailItem) {
+    update(item: Message) {
+        this.listRef.update(item.key, item);
+    }
+
+    switchActive(item: Message) {
+        item.active = !item.active;
+        this.update(item);
+    }
+
+    encrypt(item: Message) {
 
     }
 
-    decrypt(item: MailItem) {
+    decrypt(item: Message) {
 
     }
 } 

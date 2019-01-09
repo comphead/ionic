@@ -1,24 +1,41 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <button ion-button menuToggle icon-only>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Messages</ion-title>
+    <ion-title *ngIf="!searching">Messages</ion-title>
+    <ion-searchbar *ngIf="searching" (search)="onSearch($event)" showCancelButton="true" (ionCancel)="searching=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!searching" (click)="searching=true">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="list-items-page">
   <ion-list>
-    <button ion-item *ngFor="let item of filteredItems" (click)="itemTapped($event, item)">
- <!--     <ion-icon name="{{item.icon}}" item-left></ion-icon> -->
-      {{item.title}}
-      <div class="item-from" item-right>
-        {{item.from}}
-      </div>
-    </button>
+    <ion-item-sliding *ngFor="let item of filteredItems">
+      <ion-item (click)="itemTapped($event, item)">
+        <h2><b>{{item.title}}</b></h2>
+        <h3>{{item.from}}</h3>
+        <p>{{item.text}}</p>
+        <ion-note item-end>{{item.timestamp | date:'dd/MM/yyyy hh:mm a'}}</ion-note>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="switchActive(item)">
+          <ion-icon [name]="item.active ? 'eye-off' : 'eye'">
+          </ion-icon>
+        </button>
+        <button ion-button color="danger" (click)="remove(item)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   <ion-fab bottom right>
-    <button ion-fab mini (click)="add()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab mini (click)="add()">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>
