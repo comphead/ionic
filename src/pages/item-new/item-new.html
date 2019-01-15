@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons right>
+            <button ion-button (click)="questionPopup()">
+                <ion-icon name="key"></ion-icon>
+                ({{q.length}})
+            </button>
+            <button ion-button clear (click)="save()" [disabled]="!item.valid">Save</button>
+        </ion-buttons>
+        <ion-title>New Message</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="item">
+        <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Subject</ion-label>
+            <ion-input type="text" formControlName="subject"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Text</ion-label>
+            <ion-textarea formControlName="text"></ion-textarea>
+        </ion-item>
+    </form>
+</ion-content>

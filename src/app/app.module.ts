@@ -9,9 +9,11 @@ import { FIREBASE_CONFIG } from './firebase.credentials';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { SettingsPage } from '../pages/settings/settings';
+import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
 import { ListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
-import { NewItemPage } from '../pages/item-details/item-new';
+import { NewItemPage } from '../pages/item-new/item-new';
 import { Items } from './providers/firebase.qa.provider';
 
 @NgModule({
@@ -20,7 +22,9 @@ import { Items } from './providers/firebase.qa.provider';
     HomePage,
     ListPage,
     ItemDetailsPage,
-    NewItemPage
+    NewItemPage,
+    SettingsPage,
+    QuestionModalContentPage
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,9 @@ import { Items } from './providers/firebase.qa.provider';
     HomePage,
     ListPage,
     ItemDetailsPage,
-    NewItemPage
+    NewItemPage,
+    SettingsPage,
+    QuestionModalContentPage
   ],
   providers: [
     StatusBar,

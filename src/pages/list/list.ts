@@ -6,7 +6,7 @@ import { ItemDetailsPage } from '../item-details/item-details';
 //import { Items } from '../../mocks/providers/MailProvider'
 import { Items } from '../../app/providers/firebase.qa.provider'
 import { Message } from '../../models/qa.model';
-import { NewItemPage } from '../item-details/item-new'
+import { NewItemPage } from '../item-new/item-new'
 
 
 @Component({
@@ -49,9 +49,7 @@ export class ListPage {
   }
 
   //rewrite to pipe
-  onSearch(ev) {
-    
-    // set val to the value of the ev target
+  onSearch(ev) { 
     var val = ev.target.value;
 
     // if the value is an empty string don't filter the items

@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="viewCtrl.dismiss()" class="my-style-for-modal">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>
+            Encryption Notes
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12>
+                <ion-list>
+                    <ion-item *ngFor="let q of questions">
+                        <ion-item no-lines>
+                            <ion-input type="text" placeholder="Question" [(ngModel)]="q.question">{{q.question}}</ion-input>
+                        </ion-item>
+                        <ion-item no-lines>
+                            <ion-input type="text" placeholder="Answer" [(ngModel)]="q.answer">{{q.answer}}</ion-input>
+                        </ion-item>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12 style="text-align: center">
+                <button ion-button round (click)="crypt()">Crypt</button>
+            </ion-col>
+        </ion-row>
+        <ion-row>        
+            <ion-col col-12 style="text-align: center">
+                <button ion-button clear (click)="add()">Add another question</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
