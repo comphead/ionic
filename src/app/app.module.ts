@@ -15,6 +15,8 @@ import { ListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
 import { Items } from './providers/firebase.qa.provider';
+import { AES256 } from '@ionic-native/aes-256/ngx';
+import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { Items } from './providers/firebase.qa.provider';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Items
+    Items,
+    AES256,
+    AesEncryptionJs
   ]
 })
 export class AppModule {}

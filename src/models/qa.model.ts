@@ -12,4 +12,18 @@ export class Message {
   
   export interface Message {
     [prop: string]: any;
-  } 
+  }
+  
+  export interface Question {
+    id: number,
+    text: string,
+    answer: string
+  }
+
+  export class Question {
+    constructor(id, text, answer) {
+      this.id = id;
+      this.text = text;
+      this.answer = answer;
+    }
+  }
