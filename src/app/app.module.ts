@@ -17,6 +17,8 @@ import { NewItemPage } from '../pages/item-new/item-new';
 import { Items } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
+import { Facebook } from '@ionic-native/facebook';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Items,
     AES256,
-    AesEncryptionJs
+    AesEncryptionJs,
+    Facebook
   ]
 })
 export class AppModule {}

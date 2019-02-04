@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
 import { SettingsPage } from '../pages/settings/settings';
 import { ListPage } from '../pages/list/list';
+import { HomePage } from '../pages/home/home';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,7 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage = ListPage;
+  rootPage = HomePage;
   pages: Array<{title: string, component: any}>;
 
   constructor(

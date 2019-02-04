@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.av.postClientUI" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>postClientUI</name>
     <description>postClientUI Q and A App</description>
     <author email="comphead@ukr.net" href="http://ionicframework.com/">Alex V Team</author>
@@ -83,6 +83,11 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-firebase" spec="2.0.5" />
-    <engine name="android" spec="7.1.4" />
     <plugin name="cordova-plugin-aes256-encryption" spec="1.1.0" />
+    <plugin name="cordova-plugin-facebook4" spec="4.1.0">
+        <variable name="APP_ID" value="1427988293998957" />
+        <variable name="APP_NAME" value="postClientUI" />
+    </plugin>
+    <engine name="android" spec="7.1.4" />
+    <engine name="browser" spec="5.0.4" />
 </widget>
