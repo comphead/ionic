@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AuthService } from '../app/services/auth.service';
 
 
 @Component({
@@ -15,14 +16,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage = HomePage;
-  pages: Array<{title: string, component: any}>;
+  rootPage;
+  pages: Array<{ title: string, component: any }>;
 
   constructor(
     public platform: Platform,
     public menu: MenuController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    private auth: AuthService
   ) {
     this.initializeApp();
 
@@ -40,6 +42,20 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    this.auth.afAuth.authState
+    .subscribe(
+      user => {
+        if (user) {
+          this.rootPage = ListPage;
+        } else {
+          this.rootPage = HomePage;
+        }
+      },
+      () => {
+        this.rootPage = HomePage;
+      }
+    );
   }
 
   openPage(page) {
@@ -47,5 +63,17 @@ export class MyApp {
     this.menu.close();
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component);
+  }
+
+  login() {
+    this.menu.close();
+    this.auth.signOut();
+    this.nav.setRoot(HomePage);
+  }
+
+  logout() {
+    this.menu.close();
+    this.auth.signOut();
+    this.nav.setRoot(ListPage);
   }
 }

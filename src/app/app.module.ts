@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 
@@ -18,12 +19,17 @@ import { Items } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { AuthService } from '../app/services/auth.service';
+import { SignupPage } from '../pages/signup/signup';
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    SignupPage,
     ListPage,
     ItemDetailsPage,
     NewItemPage,
@@ -34,12 +40,14 @@ import { Facebook } from '@ionic-native/facebook';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    NgxErrorsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    SignupPage,
     ListPage,
     ItemDetailsPage,
     NewItemPage,
@@ -49,11 +57,14 @@ import { Facebook } from '@ionic-native/facebook';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     Items,
     AES256,
     AesEncryptionJs,
-    Facebook
+    Facebook,
+    GooglePlus,
+    AngularFireAuth,
+    AuthService
   ]
 })
-export class AppModule {}
+export class AppModule { }

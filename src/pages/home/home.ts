@@ -1,12 +1,10 @@
-import firebase from 'firebase';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ListPage } from '../list/list';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
-
+import { AuthService } from '../../app/services/auth.service'
+import { SignupPage } from '../signup/signup'
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 @Component({
   selector: 'page-home',
@@ -14,23 +12,56 @@ import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public fb: Facebook) {
+  loginForm: FormGroup;
+  loginError: string;
 
+  constructor(
+    private navCtrl: NavController,
+    private auth: AuthService,
+    fb: FormBuilder
+  ) {
+    this.loginForm = fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+    });
   }
 
-  facebookLogin(): Promise<any> {
-    return this.fb.login(['email'])
-      .then(response => {
-        firebase.initializeApp(FIREBASE_CONFIG)
-        const facebookCredential = firebase.auth.FacebookAuthProvider
-          .credential(response.authResponse.accessToken);
+  login() {
+    let data = this.loginForm.value;
 
-        firebase.auth().signInWithCredential(facebookCredential)
-          .then(success => {
-            console.log("Firebase success: " + JSON.stringify(success));
-            this.navCtrl.push(ListPage);
-          });
+    if (!data.email) {
+      return;
+    }
 
-      }).catch((error) => { console.log(error) });
+    let credentials = {
+      email: data.email,
+      password: data.password
+    };
+
+    this.auth.signInWithEmail(credentials)
+      .then(
+        () => this.navCtrl.setRoot(HomePage),
+        error => this.loginError = error.message
+      );
+  }
+
+  facebookLogin() {
+    this.auth.facebookLogin(success => {
+      console.log("Firebase success: " + JSON.stringify(success));
+      this.navCtrl.push(ListPage);
+    });
+  }
+
+  loginWithGoogle() {
+    this.auth.signInWithGoogle()
+      .then(
+        () => this.navCtrl.setRoot(HomePage),
+        error => console.log(error.message)
+      );
+  }
+
+  signup() {
+    this.navCtrl.push(SignupPage);
   }
 }
+
