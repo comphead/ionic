@@ -8,7 +8,8 @@ import { HomePage } from '../pages/home/home';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../app/services/auth.service';
-
+import { Audit } from './providers/firebase.qa.provider';
+import { Message } from '../models/qa.model';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +25,8 @@ export class MyApp {
     public menu: MenuController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private auth: AuthService
+    private auth: AuthService,
+    private audit: Audit
   ) {
     this.initializeApp();
 
@@ -47,6 +49,7 @@ export class MyApp {
     .subscribe(
       user => {
         if (user && user.emailVerified) {
+          this.doAudit(user);
           this.rootPage = ListPage;
         } else {
           this.rootPage = HomePage;
@@ -56,6 +59,14 @@ export class MyApp {
         this.rootPage = HomePage;
       }
     );
+  }
+
+  private doAudit(user) {
+    this.audit.add(new Message({
+      "email": user.email,
+      "action": "login",
+      "timestamp": new Date().getTime()
+    }));
   }
 
   openPage(page) {

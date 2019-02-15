@@ -15,7 +15,7 @@ import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
 import { ListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import { Items } from './providers/firebase.qa.provider';
+import { Items, Audit, MessageProvider } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -64,7 +64,9 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     Facebook,
     GooglePlus,
     AngularFireAuth,
-    AuthService
+    AuthService,
+    MessageProvider,
+    Audit
   ]
 })
 export class AppModule { }

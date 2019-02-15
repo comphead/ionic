@@ -4,14 +4,22 @@ import { Message } from '../../models/qa.model';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+
+export interface Provider<T> {
+    listRef: AngularFireList<T>
+    query(params?: any)
+    add(item: T)
+    update(item: T)
+    delete(item: T)
+}
 
 @Injectable()
-export class Items {
-    private dbName: string = 'qaMsg';
-    private listRef = this.db.list<Message>(this.dbName);
+export class MessageProvider implements Provider<Message> {
+    listRef: AngularFireList<Message> = null;
 
-    constructor(private db: AngularFireDatabase) { }
+    constructor(protected db: AngularFireDatabase) {
+    }
 
     query(params?: any): Observable<Message[]> {
         return this.listRef
@@ -36,17 +44,18 @@ export class Items {
     update(item: Message) {
         this.listRef.update(item.key, item);
     }
+}
 
+@Injectable()
+export class Items extends MessageProvider {
+    listRef: AngularFireList<Message> = this.db.list<Message>("qaMsg");
     switchActive(item: Message) {
         item.active = !item.active;
         this.update(item);
     }
+}
 
-    encrypt(item: Message) {
-
-    }
-
-    decrypt(item: Message) {
-
-    }
+@Injectable()
+export class Audit extends MessageProvider {
+    listRef: AngularFireList<Message> = this.db.list<Message>("audit");
 } 
