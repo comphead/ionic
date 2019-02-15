@@ -5,6 +5,7 @@ import { ListPage } from '../list/list';
 import { AuthService } from '../../app/services/auth.service'
 import { SignupPage } from '../signup/signup'
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { MSG_CFG } from '../../app/messages.config'
 
 @Component({
   selector: 'page-home',
@@ -40,7 +41,15 @@ export class HomePage {
 
     this.auth.signInWithEmail(credentials)
       .then(
-        () => this.navCtrl.setRoot(HomePage),
+        (creds) => {
+          if (creds.user.emailVerified) {
+            this.navCtrl.setRoot(ListPage)
+          }
+          else {
+            creds.user.sendEmailVerification()
+            this.loginError = MSG_CFG.emailNotVerified
+          }
+        },
         error => this.loginError = error.message
       );
   }
@@ -48,7 +57,7 @@ export class HomePage {
   facebookLogin() {
     this.auth.facebookLogin(success => {
       console.log("Firebase success: " + JSON.stringify(success));
-      this.navCtrl.push(ListPage);
+      this.navCtrl.setRoot(ListPage)
     });
   }
 
