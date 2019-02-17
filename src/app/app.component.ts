@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../app/services/auth.service';
 import { Audit } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
+import { APP_CONFIG } from './app.config';
 
 @Component({
   templateUrl: 'app.html'
@@ -51,6 +52,7 @@ export class MyApp {
         if (user && user.emailVerified) {
           this.doAudit(user);
           this.rootPage = ListPage;
+          sessionStorage.setItem(APP_CONFIG.sessionUser, user.email);
         } else {
           this.rootPage = HomePage;
         }

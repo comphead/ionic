@@ -5,6 +5,7 @@ import { Message } from '../../models/qa.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { APP_CONFIG } from '../app.config'
 
 export interface Provider<T> {
     listRef: AngularFireList<T>
@@ -48,7 +49,10 @@ export class MessageProvider implements Provider<Message> {
 
 @Injectable()
 export class Items extends MessageProvider {
-    listRef: AngularFireList<Message> = this.db.list<Message>("qaMsg");
+    listRef: AngularFireList<Message> = this.db.list<Message>(APP_CONFIG.dbs.msgs, ref =>
+        ref.orderByChild('from').equalTo(sessionStorage.getItem(APP_CONFIG.sessionUser))
+    );
+
     switchActive(item: Message) {
         item.active = !item.active;
         this.update(item);
@@ -57,5 +61,5 @@ export class Items extends MessageProvider {
 
 @Injectable()
 export class Audit extends MessageProvider {
-    listRef: AngularFireList<Message> = this.db.list<Message>("audit");
+    listRef: AngularFireList<Message> = this.db.list<Message>(APP_CONFIG.dbs.audit);
 } 

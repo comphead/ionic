@@ -8,7 +8,7 @@ import { QuestionModalContentPage } from '../../pages/modals/q-content-modal'
 //import { Aes256Encryption } from '../../app/encrypt/Aes256Encryption'
 //import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from '../../app/encrypt/AesEncryptionJs';
-
+import { APP_CONFIG } from '../../app/app.config'
 
 @Component({
     templateUrl: 'item-new.html'
@@ -35,7 +35,7 @@ export class NewItemPage {
     }
 
     questionPopup() {
-        const modal = this.modalCtrl.create(QuestionModalContentPage, {editable: true, q:this.q});
+        const modal = this.modalCtrl.create(QuestionModalContentPage, { editable: true, q: this.q });
         modal.present();
         modal.onDidDismiss(data => {
             this.q = data ? data : (this.q ? this.q : []);
@@ -49,7 +49,7 @@ export class NewItemPage {
             "text": this.aes256.encrypt(textKey, this.item.value.text),
             "title": this.item.value.subject,
             "timestamp": new Date().getTime(),
-            "from": Math.random().toString(36).substring(7),
+            "from": sessionStorage.getItem(APP_CONFIG.sessionUser),
             "to": this.item.value.email,
             "active": true,
             "questions": this.q.map(e => {
@@ -59,12 +59,12 @@ export class NewItemPage {
         this.items.add(i);
         this.navCtrl.pop();
     }
-/*
-    private transformQA(qa) {
-        return Promise.all(qa.map(e => {
-            var encryptor = new Aes256Encryption(e.answer, this.aes256);
-            return ({ "question": encryptor.encrypt(e.question), "answer": "" });
-        }));
-    }
-*/
+    /*
+        private transformQA(qa) {
+            return Promise.all(qa.map(e => {
+                var encryptor = new Aes256Encryption(e.answer, this.aes256);
+                return ({ "question": encryptor.encrypt(e.question), "answer": "" });
+            }));
+        }
+    */
 }
