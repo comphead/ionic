@@ -44,11 +44,11 @@ export class MessageProvider implements Provider<Message> {
     }
 
     delete(item: Message) {
-        this.messageCollectionRef.doc(item.id).delete();
+        this.messageCollectionRef.doc(item.key).delete();
     }
 
     update(item: Message) {
-        this.messageCollectionRef.doc(item.id).update(item);
+        this.messageCollectionRef.doc(item.key).update(item);
     }
 }
 
