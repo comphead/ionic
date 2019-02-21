@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 
 import { MyApp } from './app.component';
@@ -64,6 +65,7 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     Facebook,
     GooglePlus,
     AngularFireAuth,
+    AngularFirestore,
     AuthService,
     MessageProvider,
     Audit

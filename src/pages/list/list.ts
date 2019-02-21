@@ -15,8 +15,8 @@ import { NewItemPage } from '../item-new/item-new'
 })
 export class ListPage {
   icons: string[];
-  items: Message[];
-  filteredItems: Message[];
+  items: Message[] = [];
+  filteredItems: Message[] = [];
   searching = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private _items: Items) {
@@ -25,8 +25,10 @@ export class ListPage {
 
   initializeItems() {
     this._items.query().subscribe(res => {
-      this.items = res;
-      this.filteredItems = res;
+      res.forEach(element => {
+        this.items.push(element);
+        this.filteredItems.push(element);
+      });
     });
   }
 
@@ -41,7 +43,7 @@ export class ListPage {
   }
 
   remove(item) {
-    this._items.delete(item);  
+    this._items.delete(item);
   }
 
   switchActive(item) {
@@ -49,7 +51,7 @@ export class ListPage {
   }
 
   //rewrite to pipe
-  onSearch(ev) { 
+  onSearch(ev) {
     var val = ev.target.value;
 
     // if the value is an empty string don't filter the items

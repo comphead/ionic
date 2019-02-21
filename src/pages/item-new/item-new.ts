@@ -51,9 +51,10 @@ export class NewItemPage {
             "timestamp": new Date().getTime(),
             "from": sessionStorage.getItem(APP_CONFIG.sessionUser),
             "to": this.item.value.email,
+            "toList": this.item.value.email.split(";"),
             "active": true,
             "questions": this.q.map(e => {
-                return new Question(e.id, e.text, "")
+                return {... new Question(e.id, e.text, "")}
             }),
         });
         this.items.add(i);
