@@ -43,6 +43,8 @@ export class ListPage {
   }
 
   remove(item) {
+    this.items.splice(this.items.indexOf(item), 1);
+    this.items.splice(this.filteredItems.indexOf(item), 1);
     this._items.delete(item);
   }
 

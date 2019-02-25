@@ -49,7 +49,7 @@ export class MyApp {
     this.auth.afAuth.authState
     .subscribe(
       user => {
-        if (user && user.emailVerified) {
+        if (user) {
           this.doAudit(user);
           this.rootPage = ListPage;
           sessionStorage.setItem(APP_CONFIG.sessionUser, user.email);

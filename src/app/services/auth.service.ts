@@ -19,19 +19,16 @@ export class AuthService {
         });
     }
 
-    facebookLogin(callback): Promise<any> {
+    facebookLogin() {
+        console.log('Sign in with Facebook');
         return this.fb.login(['email'])
             .then(response => {
-                firebase.initializeApp(FIREBASE_CONFIG)
+                //firebase.initializeApp(FIREBASE_CONFIG)
                 const facebookCredential = firebase.auth.FacebookAuthProvider
                     .credential(response.authResponse.accessToken);
 
-                firebase.auth().signInWithCredential(facebookCredential)
-                    .then(success => {
-                        callback(success);
-                    });
-
-            }).catch((error) => { console.log(error) });
+                return this.afAuth.auth.signInWithCredential(facebookCredential);
+            });
     }
 
     signInWithEmail(credentials) {
@@ -65,17 +62,12 @@ export class AuthService {
     }
 
     private oauthSignIn(provider: AuthProvider) {
-
         return this.afAuth.auth.signInWithRedirect(provider)
             .then(() => {
                 this.afAuth.auth.getRedirectResult().then(result => {
-                    // This gives you a Google Access Token.
-                    // You can use it to access the Google API.
-                    // The signed-in user info.
                     let user = result.user;
                 }).catch(function (error) {
-                    // Handle Errors here.
-                    alert(error.message);
+                    console.log(error);
                 });
             });
     }

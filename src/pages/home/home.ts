@@ -55,10 +55,11 @@ export class HomePage {
   }
 
   facebookLogin() {
-    this.auth.facebookLogin(success => {
-      console.log("Firebase success: " + JSON.stringify(success));
-      this.navCtrl.setRoot(ListPage)
-    });
+    this.auth.facebookLogin()
+      .then(
+        () => this.navCtrl.setRoot(HomePage),
+        error => console.log(error.message)
+      );
   }
 
   loginWithGoogle() {
