@@ -20,10 +20,12 @@ import { Items, Audit, MessageProvider } from './providers/firebase.qa.provider'
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { AuthService } from '../app/services/auth.service';
 import { SignupPage } from '../pages/signup/signup';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { Toast } from '@ionic-native/toast/ngx';
+
 
 
 @NgModule({
@@ -68,7 +70,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     AngularFirestore,
     AuthService,
     MessageProvider,
-    Audit
+    Audit,
+    Toast
   ]
 })
 export class AppModule { }

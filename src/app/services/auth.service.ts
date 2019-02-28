@@ -3,7 +3,8 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { APP_CONFIG } from '../../app/app.config';
+import { GooglePlus } from '@ionic-native/google-plus';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import AuthProvider = firebase.auth.AuthProvider;
@@ -13,7 +14,7 @@ import AuthProvider = firebase.auth.AuthProvider;
 export class AuthService {
     private user: firebase.User;
 
-    constructor(public fb: Facebook, public googlePlus: GooglePlus, public afAuth: AngularFireAuth) {
+    constructor(public fb: Facebook, private googlePlus: GooglePlus, public afAuth: AngularFireAuth) {
         afAuth.authState.subscribe(user => {
             this.user = user;
         });
@@ -23,11 +24,10 @@ export class AuthService {
         console.log('Sign in with Facebook');
         return this.fb.login(['email'])
             .then(response => {
-                //firebase.initializeApp(FIREBASE_CONFIG)
                 const facebookCredential = firebase.auth.FacebookAuthProvider
                     .credential(response.authResponse.accessToken);
 
-                return this.afAuth.auth.signInWithCredential(facebookCredential);
+                return this.afAuth.auth.signInAndRetrieveDataWithCredential(facebookCredential);
             });
     }
 
@@ -58,11 +58,31 @@ export class AuthService {
 
     signInWithGoogle() {
         console.log('Sign in with google');
-        return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
+        return this.googlePlus.login({
+            'webClientId': APP_CONFIG.googleWebClientId
+        }).then(
+                response => {
+                    const googleCredentials = firebase.auth.GoogleAuthProvider
+                        .credential(response.idToken);
+
+                    return this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredentials);
+                }
+            );
     }
 
     private oauthSignIn(provider: AuthProvider) {
         return this.afAuth.auth.signInWithRedirect(provider)
+            .then(() => {
+                this.afAuth.auth.getRedirectResult().then(result => {
+                    let user = result.user;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            });
+    }
+
+    private oauthSignInPopup(provider: AuthProvider): Promise<void> {
+        return this.afAuth.auth.signInWithPopup(provider)
             .then(() => {
                 this.afAuth.auth.getRedirectResult().then(result => {
                     let user = result.user;
