@@ -48,20 +48,20 @@ export class MyApp {
     });
 
     this.auth.afAuth.authState
-    .subscribe(
-      user => {
-        if (user) {
-          this.doAudit(user);
-          this.rootPage = ListPage;
-          sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
-        } else {
+      .subscribe(
+        user => {
+          if (user) {
+            this.doAudit(user);
+            this.rootPage = ListPage;
+            sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
+          } else {
+            this.rootPage = HomePage;
+          }
+        },
+        () => {
           this.rootPage = HomePage;
         }
-      },
-      () => {
-        this.rootPage = HomePage;
-      }
-    );
+      );
   }
 
   private doAudit(user) {
