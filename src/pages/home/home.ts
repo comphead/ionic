@@ -52,7 +52,7 @@ export class HomePage {
             this.loginError = MSG_CFG.emailNotVerified
           }
         },
-        error => this.loginError = error.message
+        error => this.onError(error, "mailErrorLogin")
       );
   }
 
@@ -60,15 +60,20 @@ export class HomePage {
     this.auth.facebookLogin()
       .then(
         () => this.navCtrl.setRoot(HomePage),
-        error => console.log(error.message)
+        error => this.onError(error, "fbErrorLogin")
       );
+  }
+
+  private onError(error, details) {
+    console.log(details + " :" + error.message)
+          this.loginError = error.message
   }
 
   loginWithGoogle() {
     this.auth.signInWithGoogle()
       .then(
         () => this.navCtrl.setRoot(HomePage),
-        error => console.log("googleErrorLogin: " + error.message)
+        error => this.onError(error, "googleErrorLogin")
       );
   }
 

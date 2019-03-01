@@ -8,7 +8,8 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import AuthProvider = firebase.auth.AuthProvider;
-
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +43,8 @@ export class AuthService {
     }
 
     getEmail() {
-        return this.user && this.user.email;
+        return this.user ?
+            (this.user.email ? this.user.email : this.user.providerData[0].email) : "";
     }
 
     get authenticated(): boolean {
@@ -61,13 +63,13 @@ export class AuthService {
         return this.googlePlus.login({
             'webClientId': APP_CONFIG.googleWebClientId
         }).then(
-                response => {
-                    const googleCredentials = firebase.auth.GoogleAuthProvider
-                        .credential(response.idToken);
+            response => {
+                const googleCredentials = firebase.auth.GoogleAuthProvider
+                    .credential(response.idToken);
 
-                    return this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredentials);
-                }
-            );
+                return this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredentials);
+            }
+        );
     }
 
     private oauthSignIn(provider: AuthProvider) {

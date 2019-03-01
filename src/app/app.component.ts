@@ -11,6 +11,7 @@ import { AuthService } from '../app/services/auth.service';
 import { Audit } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
+import { auth } from 'firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -52,7 +53,7 @@ export class MyApp {
         if (user) {
           this.doAudit(user);
           this.rootPage = ListPage;
-          sessionStorage.setItem(APP_CONFIG.sessionUser, user.email);
+          sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
         } else {
           this.rootPage = HomePage;
         }
