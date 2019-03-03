@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Platform, MenuController, Nav } from 'ionic-angular';
+import {Platform, MenuController, Nav, ToastController} from 'ionic-angular';
 import { SettingsPage } from '../pages/settings/settings';
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
@@ -12,6 +12,7 @@ import { Audit } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
 import { auth } from 'firebase';
+import {FcmService} from "./services/fcm.service";
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +29,9 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private auth: AuthService,
-    private audit: Audit
+    private audit: Audit,
+    private fcm: FcmService,
+    private toast: ToastController
   ) {
     this.initializeApp();
 
@@ -54,6 +57,7 @@ export class MyApp {
             this.doAudit(user);
             this.rootPage = ListPage;
             sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
+            this.notificationSetup();
           } else {
             this.rootPage = HomePage;
           }
@@ -89,5 +93,25 @@ export class MyApp {
     this.menu.close();
     this.auth.signOut();
     this.nav.setRoot(ListPage);
+  }
+
+  private async presentToast(message) {
+    const toast = await this.toast.create({
+      message,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  private notificationSetup() {
+    this.fcm.getToken();
+    this.fcm.onNotifications().subscribe(
+      (msg) => {
+        if (this.platform.is('ios')) {
+          this.presentToast(msg.aps.alert);
+        } else {
+          this.presentToast(msg.body);
+        }
+      });
   }
 }

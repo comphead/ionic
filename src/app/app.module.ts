@@ -16,7 +16,7 @@ import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
 import { ListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import { Items, Audit, MessageProvider } from './providers/firebase.qa.provider';
+import {Items, Audit, MessageProvider, Devices} from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -25,7 +25,8 @@ import { AuthService } from '../app/services/auth.service';
 import { SignupPage } from '../pages/signup/signup';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { Toast } from '@ionic-native/toast/ngx';
-
+import {FcmService} from "./services/fcm.service";
+import {Firebase} from "@ionic-native/firebase";
 
 
 @NgModule({
@@ -71,7 +72,10 @@ import { Toast } from '@ionic-native/toast/ngx';
     AuthService,
     MessageProvider,
     Audit,
-    Toast
+    Toast,
+    Firebase,
+    FcmService,
+    Devices
   ]
 })
 export class AppModule { }
