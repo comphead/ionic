@@ -15,6 +15,7 @@ class BaseListPage {
   filteredItems: Message[] = [];
   searching = false;
   title: String;
+  readonly: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, protected _items: MessageProvider) {
     this.initializeItems();
@@ -72,6 +73,7 @@ class BaseListPage {
 })
 export class InboxListPage extends BaseListPage {
   title = "Inbox"
+  readonly = true
   constructor(public navCtrl: NavController, public navParams: NavParams, private i: InboxItems) {
     super(navCtrl, navParams, i);
   }
@@ -83,6 +85,7 @@ export class InboxListPage extends BaseListPage {
 })
 export class OutboxListPage extends BaseListPage {
   title = "Outbox"
+  readonly = false
   constructor(public navCtrl: NavController, public navParams: NavParams, private i: OutboxItems) {
     super(navCtrl, navParams, i);
   }

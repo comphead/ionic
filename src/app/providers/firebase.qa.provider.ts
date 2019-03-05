@@ -67,7 +67,9 @@ export class MessageProvider implements Provider<Message> {
 export class InboxItems extends MessageProvider {
     query(params?: any): Observable<Message> {
         return this.filter(ref =>
-            ref.where('toList', 'array-contains', sessionStorage.getItem(APP_CONFIG.sessionUser)));
+            ref
+            .where('delivered', '==', "true")
+            .where('toList', 'array-contains', sessionStorage.getItem(APP_CONFIG.sessionUser)));
     }
 }
 

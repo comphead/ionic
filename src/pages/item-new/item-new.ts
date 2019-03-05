@@ -53,6 +53,7 @@ export class NewItemPage {
             "to": this.item.value.email,
             "toList": this.item.value.email.split(";"),
             "active": true,
+            "delivered": false,
             "questions": this.q.map(e => {
                 return {... new Question(e.id, e.text, "")}
             }),

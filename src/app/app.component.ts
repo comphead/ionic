@@ -53,7 +53,7 @@ export class MyApp {
         user => {
           if (user) {
             this.doAudit(user);
-            this.rootPage = InboxListPage;
+            this.rootPage = OutboxListPage;
             sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
           } else {
             this.rootPage = HomePage;
@@ -83,12 +83,12 @@ export class MyApp {
   login() {
     this.menu.close();
     this.auth.signOut();
-    this.nav.setRoot(HomePage);
+    this.nav.setRoot(OutboxListPage);
   }
 
   logout() {
     this.menu.close();
     this.auth.signOut();
-    this.nav.setRoot(InboxListPage);
+    this.nav.setRoot(HomePage);
   }
 }

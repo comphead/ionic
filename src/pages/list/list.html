@@ -30,7 +30,7 @@
           <span style="padding-left: 3em"></span>
         </button>
         -->
-        <button ion-button color="danger" (click)="remove(item)">
+        <button *ngIf = "!readonly" ion-button color="danger" (click)="remove(item)">
           <ion-icon name="trash"></ion-icon>
           <span style="padding-left: 3em"></span>
         </button>
