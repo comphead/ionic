@@ -3,20 +3,21 @@
     <button menuToggle *ngIf="!selectedItem">
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title right>{{selectedItem.title}} ({{selectedItem.from}} {{selectedItem.timestamp | date:'dd/MM/yyyy hh:mma'}})</ion-title>
+    <ion-title right>{{selectedItem.title}} ({{selectedItem.from}}
+      {{selectedItem.timestamp | date:'dd/MM/yyyy hh:mma'}})</ion-title>
     <ion-buttons end>
-        <button ion-button (click)="questionPopup()">
-            <ion-icon name="key"></ion-icon>
-            ({{selectedItem.questions.length}})
-        </button>
-      <button ion-button icon-only (click)="delete()">
+      <button ion-button (click)="questionPopup()">
+        <ion-icon name="key"></ion-icon>
+        ({{selectedItem.questions.length}})
+      </button>
+      <!--      
+        <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <!--
       <button ion-button icon-only (click)="switchActive(selectedItem)">
         <ion-icon [name]="selectedItem.active ? 'eye-off' : 'eye'"></ion-icon>
       </button>
-    -->
+-->
     </ion-buttons>
   </ion-navbar>
 </ion-header>

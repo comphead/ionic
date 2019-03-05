@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Message } from '../../models/qa.model';
 import { Question } from '../../models/qa.model';
-import { Items } from '../../app/providers/firebase.qa.provider';
+import { OutboxItems } from '../../app/providers/firebase.qa.provider';
 import { QuestionModalContentPage } from '../../pages/modals/q-content-modal'
 //import { Aes256Encryption } from '../../app/encrypt/Aes256Encryption'
 //import { AES256 } from '@ionic-native/aes-256/ngx';
@@ -21,7 +21,7 @@ export class NewItemPage {
     constructor(public navCtrl: NavController,
         private formBuilder: FormBuilder,
         private modalCtrl: ModalController,
-        private items: Items,
+        private items: OutboxItems,
         private aes256: AesEncryptionJs) {
         this.item = this.formBuilder.group({
             email: ['', Validators.compose([Validators.required, Validators.pattern(this.emailPattern)])],
@@ -53,6 +53,7 @@ export class NewItemPage {
             "to": this.item.value.email,
             "toList": this.item.value.email.split(";"),
             "active": true,
+            "delivered": false,
             "questions": this.q.map(e => {
                 return {... new Question(e.id, e.text, "")}
             }),

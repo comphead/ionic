@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
-import { Items } from '../../app/providers/firebase.qa.provider'
+import { MessageProvider } from '../../app/providers/firebase.qa.provider'
 import { QuestionModalContentPage } from '../../pages/modals/q-content-modal'
 import { AesEncryptionJs } from '../../app/encrypt/AesEncryptionJs';
 import { Toast } from '@ionic-native/toast/ngx';
@@ -19,7 +19,7 @@ export class ItemDetailsPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private _items: Items,
+    private _items: MessageProvider,
     private modalCtrl: ModalController,
     private aes256: AesEncryptionJs,
     private toast: ToastController
@@ -35,7 +35,7 @@ export class ItemDetailsPage {
   }
 
   switchActive(item) {
-    this._items.switchActive(item);
+    //this._items.switchActive(item);
   }
 
   questionPopup() {

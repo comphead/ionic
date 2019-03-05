@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ListPage } from '../list/list';
+import { InboxListPage } from '../list/list';
 import { AuthService } from '../../app/services/auth.service'
 import { SignupPage } from '../signup/signup'
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
@@ -45,7 +45,7 @@ export class HomePage {
       .then(
         (creds) => {
           if (creds.user.emailVerified) {
-            this.navCtrl.setRoot(ListPage)
+            this.navCtrl.setRoot(InboxListPage)
           }
           else {
             creds.user.sendEmailVerification()

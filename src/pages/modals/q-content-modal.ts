@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 import { Question } from '../../models/qa.model';
 import { AesEncryptionJs } from '../../app/encrypt/AesEncryptionJs';
 import { APP_CONFIG } from '../../app/app.config'
@@ -14,7 +14,6 @@ export class QuestionModalContentPage {
     private editable = false;
 
     constructor(
-        public platform: Platform,
         public params: NavParams,
         public viewCtrl: ViewController,
         private aes256: AesEncryptionJs

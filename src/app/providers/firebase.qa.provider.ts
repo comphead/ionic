@@ -20,9 +20,8 @@ export interface Provider<T> {
 
 @Injectable()
 export class MessageProvider implements Provider<Message> {
-    //listRef: AngularFireList<Message> = null;
-    messageCollectionRef: AngularFirestoreCollection<Message>;
-    dbName: string;
+    messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.msgs);
+    dbName: string = APP_CONFIG.dbs.msgs;
 
     constructor(protected db: AngularFireDatabase, protected store: AngularFirestore) {
     }
@@ -66,26 +65,20 @@ export class MessageProvider implements Provider<Message> {
 }
 
 @Injectable()
-export class Items extends MessageProvider {
-    //listRef: AngularFireList<Message> = this.db.list<Message>(APP_CONFIG.dbs.msgs);
-    messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.msgs);
-    dbName: string = APP_CONFIG.dbs.msgs;
-
+export class InboxItems extends MessageProvider {
     query(params?: any): Observable<Message> {
-        var q1 = this.filter(ref =>
-            ref.where('from', '==', sessionStorage.getItem(APP_CONFIG.sessionUser)));
-
-        var q2 = this.filter(ref =>
-            ref.where('toList', 'array-contains', sessionStorage.getItem(APP_CONFIG.sessionUser)));
-
-        return merge(
-            q2,q1
-        );
+        return this.filter(ref =>
+            ref
+            .where('delivered', '==', "true")
+            .where('toList', 'array-contains', sessionStorage.getItem(APP_CONFIG.sessionUser)));
     }
+}
 
-    switchActive(item: Message) {
-        item.active = !item.active;
-        this.update(item);
+@Injectable()
+export class OutboxItems extends MessageProvider {
+    query(params?: any): Observable<Message> {
+        return this.filter(ref =>
+            ref.where('from', '==', sessionStorage.getItem(APP_CONFIG.sessionUser)));
     }
 }
 

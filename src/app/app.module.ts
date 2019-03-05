@@ -13,10 +13,10 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
-import { ListPage } from '../pages/list/list';
+import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import {Items, Audit, MessageProvider, Devices} from './providers/firebase.qa.provider';
+import { Audit, MessageProvider, InboxItems, OutboxItems, Devices } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -34,7 +34,8 @@ import {Firebase} from "@ionic-native/firebase";
     MyApp,
     HomePage,
     SignupPage,
-    ListPage,
+    InboxListPage,
+    OutboxListPage,
     ItemDetailsPage,
     NewItemPage,
     SettingsPage,
@@ -52,7 +53,8 @@ import {Firebase} from "@ionic-native/firebase";
     MyApp,
     HomePage,
     SignupPage,
-    ListPage,
+    InboxListPage,
+    OutboxListPage,
     ItemDetailsPage,
     NewItemPage,
     SettingsPage,
@@ -62,7 +64,6 @@ import {Firebase} from "@ionic-native/firebase";
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    Items,
     AES256,
     AesEncryptionJs,
     Facebook,
@@ -73,6 +74,8 @@ import {Firebase} from "@ionic-native/firebase";
     MessageProvider,
     Audit,
     Toast,
+    InboxItems,
+    OutboxItems,
     Firebase,
     FcmService,
     Devices
