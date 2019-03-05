@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from 'ionic-angular';
-import { ListPage } from '../list/list';
+import { InboxListPage } from '../list/list';
 import { AuthService } from '../../app/services/auth.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class SignupPage {
       password: data.password
     };
     this.auth.signUp(credentials).then(
-      () => this.navCtrl.setRoot(ListPage),
+      () => this.navCtrl.setRoot(InboxListPage),
       error => this.signupError = error.message
     );
   }

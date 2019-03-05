@@ -3,7 +3,7 @@
     <button ion-button menuToggle icon-only>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="!searching">Messages</ion-title>
+    <ion-title *ngIf="!searching">{{title}}</ion-title>
     <ion-searchbar *ngIf="searching" (search)="onSearch($event)" showCancelButton="true" (ionCancel)="searching=false;onSearch($event)"></ion-searchbar>
     <ion-buttons end>
       <button ion-button icon-only *ngIf="!searching" (click)="searching=true">

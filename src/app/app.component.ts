@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';
 import { SettingsPage } from '../pages/settings/settings';
-import { ListPage } from '../pages/list/list';
+import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -34,7 +34,8 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Messages', component: ListPage },
+      { title: 'Inbox', component: InboxListPage },
+      { title: 'Outbox', component: OutboxListPage },
       { title: 'Settings', component: SettingsPage }
     ];
   }
@@ -52,7 +53,7 @@ export class MyApp {
         user => {
           if (user) {
             this.doAudit(user);
-            this.rootPage = ListPage;
+            this.rootPage = InboxListPage;
             sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
           } else {
             this.rootPage = HomePage;
@@ -88,6 +89,6 @@ export class MyApp {
   logout() {
     this.menu.close();
     this.auth.signOut();
-    this.nav.setRoot(ListPage);
+    this.nav.setRoot(InboxListPage);
   }
 }

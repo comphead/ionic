@@ -13,10 +13,10 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
-import { ListPage } from '../pages/list/list';
+import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import { Items, Audit, MessageProvider } from './providers/firebase.qa.provider';
+import { Audit, MessageProvider, InboxItems, OutboxItems } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -26,14 +26,13 @@ import { SignupPage } from '../pages/signup/signup';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { Toast } from '@ionic-native/toast/ngx';
 
-
-
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     SignupPage,
-    ListPage,
+    InboxListPage,
+    OutboxListPage,
     ItemDetailsPage,
     NewItemPage,
     SettingsPage,
@@ -51,7 +50,8 @@ import { Toast } from '@ionic-native/toast/ngx';
     MyApp,
     HomePage,
     SignupPage,
-    ListPage,
+    InboxListPage, 
+    OutboxListPage,
     ItemDetailsPage,
     NewItemPage,
     SettingsPage,
@@ -61,7 +61,6 @@ import { Toast } from '@ionic-native/toast/ngx';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    Items,
     AES256,
     AesEncryptionJs,
     Facebook,
@@ -71,7 +70,9 @@ import { Toast } from '@ionic-native/toast/ngx';
     AuthService,
     MessageProvider,
     Audit,
-    Toast
+    Toast,
+    InboxItems,
+    OutboxItems
   ]
 })
 export class AppModule { }

@@ -20,10 +20,21 @@ export interface Provider<T> {
 
 @Injectable()
 export class MessageProvider implements Provider<Message> {
-    //listRef: AngularFireList<Message> = null;
-    messageCollectionRef: AngularFirestoreCollection<Message>;
+    messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.msgs);
 
     constructor(protected db: AngularFireDatabase, protected store: AngularFirestore) {
+    }
+
+    protected filter(filterFn): Observable<Message> {
+        return this.store.collection<Message>(APP_CONFIG.dbs.msgs, filterFn)
+            .snapshotChanges().pipe(
+                map(
+                    changes => {
+                        return changes.map(c => ({
+                            key: c.payload.doc.id, ...c.payload.doc.data()
+                        }))
+                    })
+            );
     }
 
     query(params?: any): Observable<Message> {
@@ -53,37 +64,18 @@ export class MessageProvider implements Provider<Message> {
 }
 
 @Injectable()
-export class Items extends MessageProvider {
-    //listRef: AngularFireList<Message> = this.db.list<Message>(APP_CONFIG.dbs.msgs);
-    messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.msgs);
-
+export class InboxItems extends MessageProvider {
     query(params?: any): Observable<Message> {
-        var q1 = this.filter(ref =>
-            ref.where('from', '==', sessionStorage.getItem(APP_CONFIG.sessionUser)));
-
-        var q2 = this.filter(ref =>
+        return this.filter(ref =>
             ref.where('toList', 'array-contains', sessionStorage.getItem(APP_CONFIG.sessionUser)));
-
-        return merge(
-            q2,q1
-        );
     }
+}
 
-    private filter(filterFn): Observable<Message> {
-        return this.store.collection<Message>(APP_CONFIG.dbs.msgs, filterFn)
-            .snapshotChanges().pipe(
-                map(
-                    changes => {
-                        return changes.map(c => ({
-                            key: c.payload.doc.id, ...c.payload.doc.data()
-                        }))
-                    })
-            );
-    }
-
-    switchActive(item: Message) {
-        item.active = !item.active;
-        this.update(item);
+@Injectable()
+export class OutboxItems extends MessageProvider {
+    query(params?: any): Observable<Message> {
+        return this.filter(ref =>
+            ref.where('from', '==', sessionStorage.getItem(APP_CONFIG.sessionUser)));
     }
 }
 

@@ -4,22 +4,19 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { ItemDetailsPage } from '../item-details/item-details';
 //import { Items } from '../../mocks/providers/MailProvider'
-import { Items } from '../../app/providers/firebase.qa.provider'
+import { InboxItems, OutboxItems, MessageProvider } from '../../app/providers/firebase.qa.provider'
 import { Message } from '../../models/qa.model';
 import { NewItemPage } from '../item-new/item-new'
 
 
-@Component({
-  selector: 'page-list',
-  templateUrl: 'list.html'
-})
-export class ListPage {
+class BaseListPage {
   icons: string[];
   items: Message[] = [];
   filteredItems: Message[] = [];
   searching = false;
+  title: String;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _items: Items) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, protected _items: MessageProvider) {
     this.initializeItems();
   }
 
@@ -42,6 +39,7 @@ export class ListPage {
     this.navCtrl.push(NewItemPage);
   }
 
+
   remove(item) {
     this.items.splice(this.items.indexOf(item), 1);
     this.items.splice(this.filteredItems.indexOf(item), 1);
@@ -49,7 +47,7 @@ export class ListPage {
   }
 
   switchActive(item) {
-    this._items.switchActive(item);
+    //this._items.switchActive(item);
   }
 
   //rewrite to pipe
@@ -64,5 +62,28 @@ export class ListPage {
     } else {
       this.filteredItems = this.items;
     }
+  }
+
+}
+
+@Component({
+  selector: 'page-list',
+  templateUrl: 'list.html'
+})
+export class InboxListPage extends BaseListPage {
+  title = "Inbox"
+  constructor(public navCtrl: NavController, public navParams: NavParams, private i: InboxItems) {
+    super(navCtrl, navParams, i);
+  }
+}
+
+@Component({
+  selector: 'page-list',
+  templateUrl: 'list.html'
+})
+export class OutboxListPage extends BaseListPage {
+  title = "Outbox"
+  constructor(public navCtrl: NavController, public navParams: NavParams, private i: OutboxItems) {
+    super(navCtrl, navParams, i);
   }
 }
