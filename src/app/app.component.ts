@@ -12,6 +12,7 @@ import { Audit } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
 import { auth } from 'firebase';
+import { Device } from '@ionic-native/device/ngx';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,6 +22,7 @@ export class MyApp {
 
   rootPage;
   pages: Array<{ title: string, component: any }>;
+  user: firebase.User;
 
   constructor(
     public platform: Platform,
@@ -28,7 +30,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private auth: AuthService,
-    private audit: Audit
+    private audit: Audit,
+    private device: Device
   ) {
     this.initializeApp();
 
@@ -46,30 +49,38 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
 
-    this.auth.afAuth.authState
-      .subscribe(
-        user => {
-          if (user) {
-            this.doAudit(user);
-            this.rootPage = OutboxListPage;
-            sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
-          } else {
+      this.platform.resume.subscribe((result) => {
+        this.doAudit(this.user, "resume");
+      });
+
+      this.auth.afAuth.authState
+        .subscribe(
+          user => {
+            this.user = user;
+            if (user) {
+              this.doAudit(user, "login");
+              this.rootPage = OutboxListPage;
+              sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
+            } else {
+              this.rootPage = HomePage;
+            }
+          },
+          () => {
             this.rootPage = HomePage;
           }
-        },
-        () => {
-          this.rootPage = HomePage;
-        }
-      );
+        );
+
+    });
   }
 
-  private doAudit(user) {
+  private doAudit(user, type) {
     this.audit.add(new Message({
       "email": user.email,
-      "action": "login",
-      "timestamp": new Date().getTime()
+      "action": type,
+      "timestamp": new Date().getTime(),
+      "os": this.device.platform,
+      "deviceId": this.device.uuid
     }));
   }
 
