@@ -21,20 +21,9 @@ export interface Provider<T> {
 @Injectable()
 export class MessageProvider implements Provider<Message> {
     messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.msgs);
+    dbName: string = APP_CONFIG.dbs.msgs;
 
     constructor(protected db: AngularFireDatabase, protected store: AngularFirestore) {
-    }
-
-    protected filter(filterFn): Observable<Message> {
-        return this.store.collection<Message>(APP_CONFIG.dbs.msgs, filterFn)
-            .snapshotChanges().pipe(
-                map(
-                    changes => {
-                        return changes.map(c => ({
-                            key: c.payload.doc.id, ...c.payload.doc.data()
-                        }))
-                    })
-            );
     }
 
     query(params?: any): Observable<Message> {
@@ -61,6 +50,18 @@ export class MessageProvider implements Provider<Message> {
     update(item: Message) {
         this.messageCollectionRef.doc(item.key).update(item);
     }
+
+    filter(filterFn): Observable<Message> {
+      return this.store.collection<Message>(this.dbName, filterFn)
+        .snapshotChanges().pipe(
+          map(
+            changes => {
+              return changes.map(c => ({
+                key: c.payload.doc.id, ...c.payload.doc.data()
+              }))
+            })
+        );
+    }
 }
 
 @Injectable()
@@ -83,5 +84,26 @@ export class OutboxItems extends MessageProvider {
 
 @Injectable()
 export class Audit extends MessageProvider {
+    dbName: string = APP_CONFIG.dbs.audit;
     messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.audit);
-} 
+}
+
+@Injectable()
+export class Devices extends MessageProvider {
+  messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.devices);
+  dbName: string = APP_CONFIG.dbs.devices;
+
+  add(pushToken: String) {
+    var email = sessionStorage.getItem(APP_CONFIG.sessionUser)
+    this.filter(ref => ref.where('email', '==', email).where('pushToken', '==', pushToken))
+      .subscribe(res => {
+        if (res.length == 0) {
+          super.add(new Message({
+            "email" : email,
+            "pushToken": pushToken,
+            "timestamp": new Date().getTime()
+          }));
+        }
+      });
+  }
+}

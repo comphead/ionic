@@ -16,7 +16,7 @@ import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
 import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import { Audit, MessageProvider, InboxItems, OutboxItems } from './providers/firebase.qa.provider';
+import { Audit, MessageProvider, InboxItems, OutboxItems, Devices } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -25,6 +25,9 @@ import { AuthService } from '../app/services/auth.service';
 import { SignupPage } from '../pages/signup/signup';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { Toast } from '@ionic-native/toast/ngx';
+import {FcmService} from "./services/fcm.service";
+import {Firebase} from "@ionic-native/firebase";
+
 
 @NgModule({
   declarations: [
@@ -50,7 +53,7 @@ import { Toast } from '@ionic-native/toast/ngx';
     MyApp,
     HomePage,
     SignupPage,
-    InboxListPage, 
+    InboxListPage,
     OutboxListPage,
     ItemDetailsPage,
     NewItemPage,
@@ -72,7 +75,10 @@ import { Toast } from '@ionic-native/toast/ngx';
     Audit,
     Toast,
     InboxItems,
-    OutboxItems
+    OutboxItems,
+    Firebase,
+    FcmService,
+    Devices
   ]
 })
 export class AppModule { }

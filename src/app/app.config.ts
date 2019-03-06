@@ -3,7 +3,8 @@ export const APP_CONFIG = {
     sessionUser: "user",
     dbs: {
         msgs: "messages",
-        audit: "audit"
+        audit: "audit",
+        devices: "devices"
     },
     googleWebClientId: "543502432744-mb8sojkia9anc98pke5j66gvvbi1p2qq.apps.googleusercontent.com"
 }
