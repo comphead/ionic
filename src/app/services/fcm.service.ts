@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Devices } from '../providers/firebase.qa.provider';
-import {Firebase} from "@ionic-native/firebase";
+import { Firebase } from "@ionic-native/firebase";
 
 @Injectable()
 export class FcmService {
 
   constructor(private devices: Devices,
-              private firebase: Firebase,
-              private platform: Platform) {}
+    private firebase: Firebase,
+    private platform: Platform) { }
 
   async getToken() {
     let token;

@@ -93,8 +93,8 @@
         <variable name="WEB_APPLICATION_CLIENT_ID" value="543502432744-mb8sojkia9anc98pke5j66gvvbi1p2qq.apps.googleusercontent.com" />
     </plugin>
     <plugin name="cordova-plugin-x-toast" spec="2.7.2" />
+    <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />
-    <engine name="ios" spec="~4.5.5" />
-    <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <engine name="ios" spec="4.5.5" />
 </widget>

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import {Platform, MenuController, Nav, ToastController} from 'ionic-angular';
+import { Platform, MenuController, Nav, ToastController } from 'ionic-angular';
 import { SettingsPage } from '../pages/settings/settings';
 import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
@@ -11,9 +11,8 @@ import { AuthService } from '../app/services/auth.service';
 import { Audit } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
-import { auth } from 'firebase';
-import { Device } from '@ionic-native/device/ngx';
-import {FcmService} from "./services/fcm.service";
+import { Device } from '@ionic-native/device';
+import { FcmService } from "./services/fcm.service";
 
 @Component({
   templateUrl: 'app.html'

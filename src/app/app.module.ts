@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 
 import { MyApp } from './app.component';
@@ -25,8 +25,9 @@ import { AuthService } from '../app/services/auth.service';
 import { SignupPage } from '../pages/signup/signup';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { Toast } from '@ionic-native/toast/ngx';
-import {FcmService} from "./services/fcm.service";
-import {Firebase} from "@ionic-native/firebase";
+import { FcmService } from "./services/fcm.service";
+import { Firebase } from "@ionic-native/firebase";
+import { Device } from '@ionic-native/device';
 
 
 @NgModule({
@@ -78,6 +79,7 @@ import {Firebase} from "@ionic-native/firebase";
     OutboxItems,
     Firebase,
     FcmService,
+    Device,
     Devices
   ]
 })
