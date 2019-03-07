@@ -3,8 +3,10 @@
     <button menuToggle *ngIf="!selectedItem">
       <ion-icon name="menu"></ion-icon>
     </button>
+    <!--
     <ion-title right>{{selectedItem.title}} ({{selectedItem.from}}
       {{selectedItem.timestamp | date:'dd/MM/yyyy hh:mma'}})</ion-title>
+    -->
     <ion-buttons end>
       <button ion-button (click)="questionPopup()">
         <ion-icon name="key"></ion-icon>
@@ -22,13 +24,21 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div *ngIf="selectedItem">
-    <h4 text-center>
-      <b>{{selectedItem.title}}</b>
-    </h4>
-    <p>
-      {{text}}
-    </p>
-  </div>
+<ion-content>
+  <ion-item>
+    <ion-label>From</ion-label>
+    <ion-input type="text" readonly [value]="selectedItem.from"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>To</ion-label>
+    <ion-input type="text" readonly [value]="selectedItem.to"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Subject</ion-label>
+    <ion-input type="text" readonly [value]="selectedItem.title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Text</ion-label>
+    <ion-textarea [value]="text"></ion-textarea>
+  </ion-item>
 </ion-content>
