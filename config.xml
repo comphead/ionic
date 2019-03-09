@@ -94,6 +94,10 @@
     </plugin>
     <plugin name="cordova-plugin-x-toast" spec="2.7.2" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <plugin name="cordova-plugin-firebase-config" spec="1.2.1">
+        <variable name="FIREBASE_CORE_VERSION" value="16.0.+" />
+        <variable name="FIREBASE_CONFIG_VERSION" value="16.3.+" />
+    </plugin>
     <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />
     <engine name="ios" spec="4.5.5" />

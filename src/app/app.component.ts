@@ -13,6 +13,7 @@ import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
 import { Device } from '@ionic-native/device';
 import { FcmService } from "./services/fcm.service";
+import { firebaseConfig } from './providers/firebase.config';
 
 @Component({
   templateUrl: 'app.html'
@@ -33,7 +34,8 @@ export class MyApp {
     private audit: Audit,
     private device: Device,
     private fcm: FcmService,
-    private toast: ToastController
+    private toast: ToastController,
+    private firebaseConfig: firebaseConfig
   ) {
     this.initializeApp();
 
@@ -51,7 +53,14 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
+/*
+      this.firebaseConfig.readKey("questionKey")
+        .then((res: any) => {
+          APP_CONFIG.questionKey = res
+          console.log(APP_CONFIG.questionKey)
+        })
+        .catch((error: any) => console.log(error));
+*/
       this.platform.resume.subscribe((result) => {
         this.doAudit(this.user, "resume");
       });

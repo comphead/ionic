@@ -27,7 +27,7 @@ export class QuestionModalContentPage {
     }
 
     crypt() {
-        this.viewCtrl.dismiss(this.encryptQA(this.questions, this.aes256, APP_CONFIG.questionKey));
+        this.viewCtrl.dismiss(this.encryptQA(this.questions.filter(q => q.text), this.aes256, APP_CONFIG.questionKey));
     }
 
     remove(id) {

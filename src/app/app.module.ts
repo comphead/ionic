@@ -28,6 +28,8 @@ import { Toast } from '@ionic-native/toast/ngx';
 import { FcmService } from "./services/fcm.service";
 import { Firebase } from "@ionic-native/firebase";
 import { Device } from '@ionic-native/device';
+import { firebaseConfig } from './providers/firebase.config';
+import { FirebaseConfig } from '@ionic-native/firebase-config';
 
 
 @NgModule({
@@ -80,7 +82,9 @@ import { Device } from '@ionic-native/device';
     Firebase,
     FcmService,
     Device,
-    Devices
+    Devices,
+    firebaseConfig,
+    FirebaseConfig
   ]
 })
 export class AppModule { }
