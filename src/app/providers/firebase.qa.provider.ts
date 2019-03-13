@@ -92,16 +92,11 @@ export class Devices extends MessageProvider {
   messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.devices);
   dbName: string = APP_CONFIG.dbs.devices;
 
-  add(pushToken: String) {
-    var email = sessionStorage.getItem(APP_CONFIG.sessionUser)
-    this.filter(ref => ref.where('email', '==', email).where('pushToken', '==', pushToken))
+  add(message: Message) {
+    this.filter(ref => ref.where('deviceId', '==', message.deviceId).where('pushToken', '==', message.pushToken))
       .subscribe(res => {
         if (res.length == 0) {
-          super.add(new Message({
-            "email": email,
-            "pushToken": pushToken,
-            "timestamp": new Date().getTime()
-          }));
+          super.add(message);
         }
       });
   }

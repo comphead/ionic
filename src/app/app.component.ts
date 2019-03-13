@@ -65,6 +65,8 @@ export class MyApp {
         this.doAudit(this.user, "resume");
       });
 
+      this.notificationSetup();
+
       this.auth.afAuth.authState
         .subscribe(
           user => {
@@ -73,7 +75,6 @@ export class MyApp {
               this.doAudit(user, "login");
               this.rootPage = OutboxListPage;
               sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
-              this.notificationSetup();
             } else {
               this.rootPage = HomePage;
             }
