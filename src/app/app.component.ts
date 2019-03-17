@@ -8,7 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../app/services/auth.service';
-import { Audit } from './providers/firebase.qa.provider';
+import { Audit, Users } from './providers/firebase.qa.provider';
 import { Message } from '../models/qa.model';
 import { APP_CONFIG } from './app.config';
 import { Device } from '@ionic-native/device';
@@ -35,7 +35,8 @@ export class MyApp {
     private device: Device,
     private fcm: FcmService,
     private toast: ToastController,
-    private firebaseConfig: firebaseConfig
+    private firebaseConfig: firebaseConfig,
+    private users: Users
   ) {
     this.initializeApp();
 
@@ -88,12 +89,22 @@ export class MyApp {
   }
 
   private doAudit(user, type) {
+    let deviceId = this.device.uuid;
+    let email = null;
+
+    if (user) {
+      email = user.email ? user.email : user.providerData[0].email;
+
+      this.users.add(new Message({
+        "email": email,
+        "deviceId": deviceId
+      }));
+    }
     this.audit.add(new Message({
-      "email": user.email,
+      "email": email,
       "action": type,
       "timestamp": new Date().getTime(),
-      "os": this.device.platform,
-      "deviceId": this.device.uuid
+      "deviceId": deviceId
     }));
   }
 

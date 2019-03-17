@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators'
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { APP_CONFIG } from '../app.config'
+import { firestore } from 'firebase';
 
 export interface Provider<T> {
   //listRef: AngularFireList<T>
@@ -93,11 +94,52 @@ export class Devices extends MessageProvider {
   dbName: string = APP_CONFIG.dbs.devices;
 
   add(message: Message) {
-    this.filter(ref => ref.where('deviceId', '==', message.deviceId).where('pushToken', '==', message.pushToken))
-      .subscribe(res => {
-        if (res.length == 0) {
-          super.add(message);
-        }
-      });
+
+    let devices = firestore().collection(this.dbName);
+
+    devices.where('deviceId', '==', message.deviceId)
+      .where('pushToken', '==', message.pushToken)
+      .get().then(function (querySnapshot) {
+      if (querySnapshot.docs.length == 0) {
+        devices.add(message)
+          .then(() => {console.log(`Added device ${message}`)})
+          .catch((err) => {`Failed to add device ${message}, err ${err}`});
+      }
+    });
+  }
+}
+
+@Injectable()
+export class Users extends MessageProvider {
+  messageCollectionRef: AngularFirestoreCollection<Message> = this.store.collection<Message>(APP_CONFIG.dbs.users);
+  dbName: string = APP_CONFIG.dbs.users;
+
+  add(message: Message) {
+    message.lastSeen = new Date().getTime();
+    let users = firestore().collection(this.dbName);
+
+    users.where('email', '==', message.email).get().then(function (querySnapshot) {
+      if (querySnapshot.docs.length == 0) {
+        message.lastNotified = 0;
+        message.deviceIds = [];
+        if (message.deviceId) message.deviceIds.push(message.deviceId);
+        users.add(message)
+          .then(() => {console.log(`Added user ${message}`)})
+          .catch((err) => {`Failed to add user ${message}, err ${err}`});
+      } else {
+        querySnapshot.docs.map(function (doc) {
+          if (message.deviceId) {
+            if (doc.get("deviceIds").indexOf(message.deviceId) < 0) {
+              message.deviceIds = doc.get("deviceIds");
+              message.deviceIds.push(message.deviceId);
+            }
+          }
+          if (!message.deviceId) message.deviceId = doc.get("deviceId");
+          users.doc(doc.id).update({...message})
+            .then(() => {console.log(`Updated user ${message}`)})
+            .catch((err) => {`Failed to update user ${message}, err ${err}`});
+        });
+      }
+    })
   }
 }

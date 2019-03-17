@@ -16,7 +16,7 @@ import { QuestionModalContentPage } from '../pages/modals/q-content-modal'
 import { InboxListPage, OutboxListPage } from '../pages/list/list';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { NewItemPage } from '../pages/item-new/item-new';
-import { Audit, MessageProvider, InboxItems, OutboxItems, Devices } from './providers/firebase.qa.provider';
+import { Audit, MessageProvider, InboxItems, OutboxItems, Devices, Users } from './providers/firebase.qa.provider';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { AesEncryptionJs } from './encrypt/AesEncryptionJs';
 import { Facebook } from '@ionic-native/facebook';
@@ -84,7 +84,8 @@ import { FirebaseConfig } from '@ionic-native/firebase-config';
     Device,
     Devices,
     firebaseConfig,
-    FirebaseConfig
+    FirebaseConfig,
+    Users
   ]
 })
 export class AppModule { }
