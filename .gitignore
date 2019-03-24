@@ -6,6 +6,7 @@
 *.log
 *.tmp
 *.tmp.*
+*.apk
 log.txt
 *.sublime-project
 *.sublime-workspace
@@ -33,3 +34,4 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+apksigner.bat

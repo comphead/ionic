@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-
 import { NavParams, ViewController } from 'ionic-angular';
-import { Question } from '../../models/qa.model';
+import { APP_CONFIG } from '../../app/app.config';
 import { AesEncryptionJs } from '../../app/encrypt/AesEncryptionJs';
-import { APP_CONFIG } from '../../app/app.config'
+import { Question } from '../../models/qa.model';
 
 @Component({
     templateUrl: 'q-content-modal.html'

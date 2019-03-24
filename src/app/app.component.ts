@@ -1,19 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
-
-import { Platform, MenuController, Nav, ToastController } from 'ionic-angular';
-import { SettingsPage } from '../pages/settings/settings';
-import { InboxListPage, OutboxListPage } from '../pages/list/list';
-import { HomePage } from '../pages/home/home';
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthService } from '../app/services/auth.service';
-import { Audit, Users } from './providers/firebase.qa.provider';
-import { Message } from '../models/qa.model';
-import { APP_CONFIG } from './app.config';
 import { Device } from '@ionic-native/device';
-import { FcmService } from "./services/fcm.service";
-import { firebaseConfig } from './providers/firebase.config';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { MenuController, Nav, Platform, ToastController } from 'ionic-angular';
+import { AuthService } from '../app/services/auth.service';
+import { Message } from '../models/qa.model';
+import { HomePage } from '../pages/home/home';
+import { InboxListPage, OutboxListPage } from '../pages/list/list';
+import { SettingsPage } from '../pages/settings/settings';
+import { APP_CONFIG } from './app.config';
+import { Audit, Users } from './providers/firebase.qa.provider';
+import { FcmService } from './services/fcm.service';
+import { Utils } from './services/utils.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,9 +32,8 @@ export class MyApp {
     private audit: Audit,
     private device: Device,
     private fcm: FcmService,
-    private toast: ToastController,
-    private firebaseConfig: firebaseConfig,
-    private users: Users
+    private users: Users,
+    private utils: Utils
   ) {
     this.initializeApp();
 
@@ -63,7 +60,7 @@ export class MyApp {
         .catch((error: any) => console.log(error));
 */
       this.platform.resume.subscribe((result) => {
-        this.doAudit(this.user, "resume");
+        this.doAudit(this.user, APP_CONFIG.events.resume);
       });
 
       this.notificationSetup();
@@ -73,7 +70,7 @@ export class MyApp {
           user => {
             this.user = user;
             if (user) {
-              this.doAudit(user, "login");
+              this.doAudit(user, APP_CONFIG.events.login);
               this.rootPage = OutboxListPage;
               sessionStorage.setItem(APP_CONFIG.sessionUser, this.auth.getEmail());
             } else {
@@ -84,8 +81,7 @@ export class MyApp {
             this.rootPage = HomePage;
           }
         );
-
-    });
+    })
   }
 
   private doAudit(user, type) {
@@ -127,22 +123,14 @@ export class MyApp {
     this.nav.setRoot(HomePage);
   }
 
-  private async presentToast(message) {
-    const toast = await this.toast.create({
-      message,
-      duration: 3000
-    });
-    toast.present();
-  }
-
   private notificationSetup() {
     this.fcm.getToken();
     this.fcm.onNotifications().subscribe(
       (msg) => {
         if (this.platform.is('ios')) {
-          this.presentToast(msg.aps.alert);
+          this.utils.presentToast(msg.aps.alert);
         } else {
-          this.presentToast(msg.body);
+          this.utils.presentToast(msg.body);
         }
       });
   }

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MSG_CFG } from '../../app/messages.config';
+import { AuthService } from '../../app/services/auth.service';
 import { InboxListPage } from '../list/list';
-import { AuthService } from '../../app/services/auth.service'
-import { SignupPage } from '../signup/signup'
-import { NgxErrorsModule } from '@ultimate/ngxerrors';
-import { MSG_CFG } from '../../app/messages.config'
-import { Toast } from '@ionic-native/toast/ngx';
+import { SignupPage } from '../signup/signup';
 
 @Component({
   selector: 'page-home',
@@ -20,8 +18,7 @@ export class HomePage {
   constructor(
     private navCtrl: NavController,
     private auth: AuthService,
-    fb: FormBuilder,
-    toast: Toast
+    fb: FormBuilder
   ) {
     this.loginForm = fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -66,7 +63,7 @@ export class HomePage {
 
   private onError(error, details) {
     console.log(details + " :" + error.message)
-          this.loginError = error.message
+    this.loginError = error.message
   }
 
   loginWithGoogle() {

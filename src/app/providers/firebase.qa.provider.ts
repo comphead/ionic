@@ -100,12 +100,12 @@ export class Devices extends MessageProvider {
     devices.where('deviceId', '==', message.deviceId)
       .where('pushToken', '==', message.pushToken)
       .get().then(function (querySnapshot) {
-      if (querySnapshot.docs.length == 0) {
-        devices.add(message)
-          .then(() => {console.log(`Added device ${message}`)})
-          .catch((err) => {`Failed to add device ${message}, err ${err}`});
-      }
-    });
+        if (querySnapshot.docs.length == 0) {
+          devices.add({...message})
+            .then(() => { console.log(`Added device ${message}`) })
+            .catch((err) => { `Failed to add device ${message}, err ${err}` });
+        }
+      });
   }
 }
 
@@ -123,9 +123,9 @@ export class Users extends MessageProvider {
         message.lastNotified = 0;
         message.deviceIds = [];
         if (message.deviceId) message.deviceIds.push(message.deviceId);
-        users.add(message)
-          .then(() => {console.log(`Added user ${message}`)})
-          .catch((err) => {`Failed to add user ${message}, err ${err}`});
+        users.add({...message})
+          .then(() => { console.log(`Added user ${message}`) })
+          .catch((err) => { `Failed to add user ${message}, err ${err}` });
       } else {
         querySnapshot.docs.map(function (doc) {
           if (message.deviceId) {
@@ -135,9 +135,9 @@ export class Users extends MessageProvider {
             }
           }
           if (!message.deviceId) message.deviceId = doc.get("deviceId");
-          users.doc(doc.id).update({...message})
-            .then(() => {console.log(`Updated user ${message}`)})
-            .catch((err) => {`Failed to update user ${message}, err ${err}`});
+          users.doc(doc.id).update({ ...message })
+            .then(() => { console.log(`Updated user ${message}`) })
+            .catch((err) => { `Failed to update user ${message}, err ${err}` });
         });
       }
     })

@@ -7,7 +7,10 @@ import { ItemDetailsPage } from '../item-details/item-details';
 import { InboxItems, OutboxItems, MessageProvider } from '../../app/providers/firebase.qa.provider'
 import { Message } from '../../models/qa.model';
 import { NewItemPage } from '../item-new/item-new'
-
+import { IAP } from '../../app/providers/cordova.iap.provider';
+import { Utils } from '../../app/services/utils.service';
+import { APP_CONFIG } from '../../app/app.config';
+import { MSG_CFG } from '../../app/messages.config';
 
 class BaseListPage {
   icons: string[];
@@ -17,7 +20,10 @@ class BaseListPage {
   title: String;
   readonly: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, protected _items: MessageProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    protected _items: MessageProvider) {
     this.initializeItems();
   }
 
@@ -86,7 +92,19 @@ export class InboxListPage extends BaseListPage {
 export class OutboxListPage extends BaseListPage {
   title = "Outbox"
   readonly = false
-  constructor(public navCtrl: NavController, public navParams: NavParams, private i: OutboxItems) {
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private i: OutboxItems,
+    private iap: IAP,
+    private utils: Utils) {
     super(navCtrl, navParams, i);
+  }
+
+  add() {
+    this.iap.checkStatus().then(
+      status => status ? super.add() : this.utils.presentToast(MSG_CFG.noSubscriptionFound)
+    )
   }
 }

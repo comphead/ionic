@@ -3,9 +3,8 @@ import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { MessageProvider } from '../../app/providers/firebase.qa.provider'
 import { QuestionModalContentPage } from '../../pages/modals/q-content-modal'
 import { AesEncryptionJs } from '../../app/encrypt/AesEncryptionJs';
-import { Toast } from '@ionic-native/toast/ngx';
 import { MSG_CFG } from '../../app/messages.config'
-import { ToastController } from 'ionic-angular';
+import { Utils } from '../../app/services/utils.service';
 
 
 @Component({
@@ -22,7 +21,7 @@ export class ItemDetailsPage {
     private _items: MessageProvider,
     private modalCtrl: ModalController,
     private aes256: AesEncryptionJs,
-    private toast: ToastController
+    private utils: Utils
   ) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
@@ -46,18 +45,10 @@ export class ItemDetailsPage {
       var textKey = q.map(q => q.answer).join();
       var decrypted = this.aes256.decrypt(textKey, this.selectedItem.text)
 
-      if (this.selectedItem.text && !decrypted) this.presentToast(MSG_CFG.decryptNotPossible)
-      else this.presentToast(MSG_CFG.decryptOk);
+      if (this.selectedItem.text && !decrypted) this.utils.presentToast(MSG_CFG.decryptNotPossible)
+      else this.utils.presentToast(MSG_CFG.decryptOk);
 
       this.text = decrypted ? decrypted : this.selectedItem.text
     })
-  }
-
-  presentToast(msg) {
-    let toast = this.toast.create({
-      message: msg,
-      duration: 3000
-    });
-    toast.present();
   }
 }

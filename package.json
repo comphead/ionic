@@ -8,7 +8,8 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "ionic:build": "node --max-old-space-size=2048 node_modules/@ionic/app-scripts/bin/ionic-app-scripts.js build"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -27,6 +28,7 @@
     "@ionic-native/firebase": "^4.18.0",
     "@ionic-native/firebase-config": "^4.20.0",
     "@ionic-native/google-plus": "^4.20.0",
+    "@ionic-native/in-app-purchase": "^4.20.0",
     "@ionic-native/splash-screen": "~4.17.0",
     "@ionic-native/status-bar": "~4.17.0",
     "@ionic-native/toast": "^5.2.0",
@@ -40,11 +42,13 @@
     "cordova-ios": "4.5.5",
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-aes256-encryption": "^1.1.0",
+    "cordova-plugin-console": "1.1.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-facebook4": "^4.1.0",
     "cordova-plugin-firebase": "^2.0.5",
     "cordova-plugin-firebase-config": "1.2.1",
     "cordova-plugin-googleplus": "^7.0.0",
+    "cordova-plugin-inapppurchase": "1.2.0",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^2.4.0",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -95,7 +99,9 @@
       "cordova-plugin-firebase-config": {
         "FIREBASE_CORE_VERSION": "16.0.+",
         "FIREBASE_CONFIG_VERSION": "16.3.+"
-      }
+      },
+      "cordova-plugin-console": {},
+      "cordova-plugin-inapppurchase": {}
     },
     "platforms": [
       "android",

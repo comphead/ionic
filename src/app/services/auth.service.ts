@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
-import { APP_CONFIG } from '../../app/app.config';
+import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
-import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
+import firebase from 'firebase';
+import { APP_CONFIG } from '../../app/app.config';
 import AuthProvider = firebase.auth.AuthProvider;
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {

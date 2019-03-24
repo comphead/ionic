@@ -8,7 +8,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { FIREBASE_CONFIG } from './firebase.credentials';
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
@@ -30,7 +29,10 @@ import { Firebase } from "@ionic-native/firebase";
 import { Device } from '@ionic-native/device';
 import { firebaseConfig } from './providers/firebase.config';
 import { FirebaseConfig } from '@ionic-native/firebase-config';
-
+import { IAP } from './providers/cordova.iap.provider';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
+import { HttpModule } from '@angular/http'
+import { Utils } from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { FirebaseConfig } from '@ionic-native/firebase-config';
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
-    NgxErrorsModule
+    NgxErrorsModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -67,6 +70,8 @@ import { FirebaseConfig } from '@ionic-native/firebase-config';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    InAppPurchase,
+    IAP,
     AES256,
     AesEncryptionJs,
     Facebook,
@@ -85,7 +90,8 @@ import { FirebaseConfig } from '@ionic-native/firebase-config';
     Devices,
     firebaseConfig,
     FirebaseConfig,
-    Users
+    Users,
+    Utils
   ]
 })
 export class AppModule { }
