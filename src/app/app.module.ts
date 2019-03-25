@@ -33,6 +33,17 @@ import { IAP } from './providers/cordova.iap.provider';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { HttpModule } from '@angular/http'
 import { Utils } from './services/utils.service';
+import { Settings } from './providers/settings.provider';
+import { Storage, IonicStorageModule } from '@ionic/storage';
+
+export function provideSettings(storage: Storage) {
+  return new Settings(storage, {
+    option1: true,
+    option2: 'Ionitron J. Framework',
+    option3: '3',
+    option4: 'Hello'
+  });
+}
 
 @NgModule({
   declarations: [
@@ -49,6 +60,7 @@ import { Utils } from './services/utils.service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     NgxErrorsModule,
@@ -70,6 +82,7 @@ import { Utils } from './services/utils.service';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: Settings, useFactory: provideSettings, deps: [Storage] }, 
     InAppPurchase,
     IAP,
     AES256,
@@ -91,7 +104,7 @@ import { Utils } from './services/utils.service';
     firebaseConfig,
     FirebaseConfig,
     Users,
-    Utils
+    Utils  
   ]
 })
 export class AppModule { }

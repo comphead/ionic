@@ -13,7 +13,7 @@ export class IAP {
         private iap: InAppPurchase,
         private http: Http,
         private utils: Utils
-    ) {}
+    ) { }
 
     products(id) {
         return this.utils.isApp() ? this.iap.getProducts([id]) : new Promise((resolve) => resolve([]))
@@ -46,7 +46,7 @@ export class IAP {
             })
     }
 
-    checkStatus(): Promise<boolean> {
+    checkStatus(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.iap.getReceipt()
                 .then(receipt => {
@@ -57,8 +57,8 @@ export class IAP {
                     // next, validate the encoded receipt with Apple, and get back the human readable format
                     this.validateReceipt(receiptData).then(receipt => {
                         console.log('validate receipt response', JSON.stringify(receipt))
-                        //resolve(receipt)
-                        resolve(true)
+                        resolve(receiptData)
+                        //resolve(true)
                     })
                 })
                 .catch(err => {
